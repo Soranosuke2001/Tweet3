@@ -25,7 +25,7 @@ interface InfiniteTweetListProps {
   tweets?: Tweet[];
   isLoading: boolean;
   isError: boolean;
-  hasMore: boolean;
+  hasMore: boolean | undefined;
   fetchNewTweets: () => Promise<unknown>;
 }
 
@@ -40,7 +40,7 @@ const InfiniteTweetList: FC<InfiniteTweetListProps> = ({
   tweets,
   isError,
   isLoading,
-  hasMore,
+  hasMore = false,
   fetchNewTweets,
 }) => {
   if (isLoading) return <h1>Loading...</h1>;
