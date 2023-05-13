@@ -1,3 +1,4 @@
+import { captureRejectionSymbol } from "events";
 import { z } from "zod";
 
 import {
@@ -79,6 +80,9 @@ export const profileRouter = createTRPCRouter({
         });
         addedFollow = false;
       }
+
+      void ctx.revalidateSSG?.(`/profiles/${userId}`);
+      void ctx.revalidateSSG?.(`/profiles/${currentUserId}`);
 
       return { addedFollow };
     }),
