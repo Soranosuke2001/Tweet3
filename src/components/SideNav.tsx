@@ -1,12 +1,10 @@
+import type { FC } from "react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import { FC } from "react";
 import IconHoverEffect from "./IconHoverEffect";
 import { VscAccount, VscHome, VscSignIn, VscSignOut } from "react-icons/vsc";
 
-interface SideNavProps {}
-
-const SideNav: FC<SideNavProps> = ({}) => {
+const SideNav: FC = () => {
   const session = useSession();
   const user = session.data?.user;
 

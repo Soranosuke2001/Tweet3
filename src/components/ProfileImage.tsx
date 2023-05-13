@@ -1,5 +1,5 @@
+import type { FC } from "react";
 import Image from "next/image";
-import { FC } from "react";
 import { VscAccount } from "react-icons/vsc";
 
 interface ProfileImageProps {

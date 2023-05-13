@@ -1,17 +1,9 @@
-import {
-  FC,
-  FormEvent,
-  useCallback,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import type { FC, FormEvent } from "react";
+import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import Button from "./Button";
 import ProfileImage from "./ProfileImage";
 import { useSession } from "next-auth/react";
 import { api } from "~/utils/api";
-
-interface NewTweetFormProps {}
 
 function updateTextAreaHeight(textArea?: HTMLTextAreaElement) {
   if (textArea == null) return;
@@ -20,7 +12,7 @@ function updateTextAreaHeight(textArea?: HTMLTextAreaElement) {
   textArea.style.height = `${textArea.scrollHeight}px`;
 }
 
-const NewTweetForm: FC<NewTweetFormProps> = ({}) => {
+const NewTweetForm: FC = () => {
   const session = useSession();
   if (session.status !== "authenticated") return null;
 

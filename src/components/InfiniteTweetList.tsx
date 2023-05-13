@@ -1,4 +1,4 @@
-import { FC } from "react";
+import type { FC } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ProfileImage from "./ProfileImage";
 import Link from "next/link";
