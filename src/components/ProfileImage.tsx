@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { FC } from "react";
+import { VscAccount } from "react-icons/vsc";
 
 interface ProfileImageProps {
   src?: string | null;
@@ -11,7 +12,9 @@ const ProfileImage: FC<ProfileImageProps> = ({ src, className = "" }) => {
     <div
       className={`relative h-12 w-12 overflow-hidden rounded-full ${className}`}
     >
-      {src == null ? null : (
+      {src == null ? (
+        <VscAccount className="h-full w-full" />
+      ) : (
         <Image src={src} alt="Profile Image" quality={100} fill />
       )}
     </div>
