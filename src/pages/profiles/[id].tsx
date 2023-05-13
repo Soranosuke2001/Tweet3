@@ -12,11 +12,17 @@ import Link from "next/link";
 import IconHoverEffect from "~/components/IconHoverEffect";
 import { VscArrowLeft } from "react-icons/vsc";
 import ProfileImage from "~/components/ProfileImage";
+import InfiniteTweetList from "~/components/InfiniteTweetList";
 
 const ProfilePage: NextPage<
   InferGetServerSidePropsType<typeof getStaticProps>
 > = ({ id }) => {
   const { data: profile } = api.profile.getById.useQuery({ id });
+
+  const tweets = api.tweet.infiniteProfileFeed.useInfiniteQuery(
+    { userId: id },
+    { getNextPageParam: (lastPage) => lastPage.nextCursor }
+  );
 
   if (profile == null || profile.name == null) {
     return <ErrorPage statusCode={404} />;
@@ -42,12 +48,29 @@ const ProfilePage: NextPage<
             {getPlural(profile.tweetsCount, "Follower", "Followers")} -{" "}
             {profile.followsCount} Following
           </div>
-          {/* <FollowButton isFollowing={profile.isFollowing} userId={id} onClick={() => null} /> */}
         </div>
+        <FollowButton
+          isFollowing={profile.isFollowing}
+          userId={id}
+          onClick={() => null}
+        />
       </header>
+      <main>
+        <InfiniteTweetList
+          tweets={tweets.data?.pages.flatMap((page) => page.tweets)}
+          isError={tweets.isError}
+          isLoading={tweets.isLoading}
+          hasMore={tweets.hasNextPage}
+          fetchNewTweets={tweets.fetchNextPage}
+        />
+      </main>
     </>
   );
 };
+
+function FollowButton() {
+  return <h1>Follow</h1>;
+}
 
 const pluralRules = new Intl.PluralRules();
 function getPlural(number: number, singular: string, plural: string) {
