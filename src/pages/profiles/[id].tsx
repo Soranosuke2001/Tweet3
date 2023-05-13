@@ -20,8 +20,21 @@ const ProfilePage: NextPage<
   InferGetServerSidePropsType<typeof getStaticProps>
 > = ({ id }) => {
   const { data: profile } = api.profile.getById.useQuery({ id });
+
+  const trpcUtils = api.useContext();
   const toggleFollow = api.profile.toggleFollow.useMutation({
-    onSuccess: ({ addedFollow }) => {},
+    onSuccess: ({ addedFollow }) => {
+      trpcUtils.profile.getById.setData({ id }, (oldData) => {
+        if (oldData == null) return;
+
+        const countModifier = addedFollow ? 1 : -1;
+        return {
+          ...oldData,
+          isFollowing: addedFollow,
+          followersCount: oldData.followersCount + countModifier,
+        };
+      });
+    },
   });
 
   const tweets = api.tweet.infiniteProfileFeed.useInfiniteQuery(
